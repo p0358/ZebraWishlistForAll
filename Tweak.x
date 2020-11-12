@@ -35,27 +35,27 @@ typedef enum : NSUInteger {
 
 %hook ZBPackage
 - (NSArray *_Nullable)possibleExtraActions {
-	NSMutableArray *actions = [%orig() mutableCopy];
+    NSMutableArray *actions = [%orig() mutableCopy];
 
-	if (![actions containsObject:@(ZBPackageExtraActionAddWishlist)] && ![actions containsObject:@(ZBPackageExtraActionRemoveWishlist)]) {
-		if (![[%c(ZBSettings) wishlist] containsObject:[self identifier]]) {
+    if (![actions containsObject:@(ZBPackageExtraActionAddWishlist)] && ![actions containsObject:@(ZBPackageExtraActionRemoveWishlist)]) {
+        if (![[%c(ZBSettings) wishlist] containsObject:[self identifier]]) {
             [actions addObject:@(ZBPackageExtraActionAddWishlist)];
         }
         else {
             [actions addObject:@(ZBPackageExtraActionRemoveWishlist)];
         }
-	}
+    }
 
-	return [actions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES]]];
+    return [actions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES]]];
 }
 %end
 
 %hook ZBConsoleViewController
 - (void)finishTasks {
-	NSMutableArray *wishlist = [[%c(ZBSettings) wishlist] mutableCopy];
-	%orig;
-	[%c(ZBSettings) setWishlist:wishlist];
-	// note that the orig currently doesn't remove installed packages from the whitelist
-	// but it is unintended ommission on their part, so I do this future-proofly, in case that changes in the future
+    NSMutableArray *wishlist = [[%c(ZBSettings) wishlist] mutableCopy];
+    %orig;
+    [%c(ZBSettings) setWishlist:wishlist];
+    // note that the orig currently doesn't remove installed packages from the whitelist
+    // but it is unintended ommission on their part, so I do this future-proofly, in case that changes in the future
 }
 %end
