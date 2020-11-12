@@ -1,0 +1,9 @@
+Package: net.p0358.zebrawishlistforall
+Name: ZebraWishlistForAll
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Turn Zebra wishlist into bookmarks: allow wishlist operations for all packages, including the installed ones. The way it should always have been.
+Maintainer: p0358
+Author: p0358
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000)
